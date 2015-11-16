@@ -32,47 +32,65 @@ function randomNum () {
 
 var randomNum1 = randomNum();
 var randomNum2 = randomNum();
-console.log(randomNum1);
-console.log(randomNum2);
+
+//Avoids duplicates
+while (randomNum1 === randomNum2){
+  randomNum1 = randomNum();
+}
+
+//Create Image tags//
+var el1 = document.getElementById('left');
+var imgEl1 = document.createElement('img');
+
+var el2 = document.getElementById('right');
+var imgEl2 = document.createElement('img');
+
+//initial display//
+function initialDisplay() {
+imgEl1.id = 'img1';
+imgEl1.src = imgArray[randomNum1].path;
+el1.appendChild(imgEl1);
+imgEl2.id = 'img2';
+imgEl2.src = imgArray[randomNum2].path;
+el2.appendChild(imgEl2);
+}
 
 
-//initial display of my photos//
-function displayLeft() {
-  if(randomNum1 === randomNum2){
-    randomNum();
+function highlight() {
+  if(displayLeft){
+  imgEl1.style.border = 'thick solid red';
   } else {
-  var el1 = document.getElementById('left');
-  var imgEl1 = document.createElement('img');
+  imgEl2.style.border = 'thick solid red';
+  }
+}
+
+function displayLeft() {
+  highlight();
   imgEl1.id = 'img1';
   imgEl1.src = imgArray[randomNum1].path;
-  el1.appendChild(imgEl1);
-  }
 
 }
 
 function displayRight() {
-  if(randomNum1 === randomNum2){
-    randomNum();
-  } else {
-  var el2 = document.getElementById('right');
-  var imgEl2 = document.createElement('img');
+  highlight();
   imgEl2.id = 'img2';
   imgEl2.src = imgArray[randomNum2].path;
-  el2.appendChild(imgEl2);
-  }
 }
 
-// function votesCounter() {
-  if(addEventListener('click',displayLeft)){
-     imgArray[randomNum1].numOfVotes++ ;
-} else if(addEventListener('click', displayRight)){
-     imgArray[randomNum2].numOfVotes++ ; }
-// }
-// votesCounter();
+function removeAndRefresh() {
+  var el1 = document.getElementById('left');
+  var imgEl1 = document.getElementById('img1');
+  var el2 = document.getElementById('right');
+  var imgEl2 = document.getElementById('img1');
+  el1.removeChild(imgEl1);
+  el2.removeChild(imgEl2);
+}
 
-displayLeft();
-displayRight();
+// displayLeft();
+// displayRight();
+initialDisplay();
 
+document.getElementById('button').addEventListener('click', removeAndRefresh);
 document.getElementById('img1').addEventListener('click', displayLeft);
 document.getElementById('img2').addEventListener('click', displayRight);
 
